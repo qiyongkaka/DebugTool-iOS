@@ -42,6 +42,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        /// sleep 3s to trigger main thread stall
+        Thread.sleep(forTimeInterval: 3)    
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

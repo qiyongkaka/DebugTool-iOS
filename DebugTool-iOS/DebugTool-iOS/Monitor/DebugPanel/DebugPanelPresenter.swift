@@ -11,17 +11,21 @@ final class DebugPanelPresenter {
     static let shared = DebugPanelPresenter()
 
     private var isPresenting = false
+    private lazy var panel = DebugPanelViewController()
+    private lazy var navigation: UINavigationController = {
+        let navigation = UINavigationController(rootViewController: panel)
+        navigation.modalPresentationStyle = .pageSheet
+        return navigation
+    }()
 
     private init() {}
 
     func present(from windowScene: UIWindowScene?) {
         guard !isPresenting else { return }
         guard let topViewController = topViewController(from: windowScene) else { return }
+        if navigation.presentingViewController != nil { return }
 
         isPresenting = true
-        let panel = DebugPanelViewController()
-        let navigation = UINavigationController(rootViewController: panel)
-        navigation.modalPresentationStyle = .pageSheet
         topViewController.present(navigation, animated: true) { [weak self] in
             self?.isPresenting = false
         }
